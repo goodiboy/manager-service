@@ -1,15 +1,13 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
+    "module": "commonjs", // node不支持module
     "moduleResolution": "node",
     "strict": true,
     "sourceMap": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true,
+    "esModuleInterop": true
   },
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }
