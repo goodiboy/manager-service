@@ -1,32 +1,22 @@
 import Koa from 'koa'
-import Router from 'koa-router'
-import bodyParser from 'koa-bodyparser'
-import json from 'koa-json'
+import router from './routes'
 import logUtil from './utils/logUtil'
+import middleware from './utils/composeMiddleware'
+import compress from 'koa-compress' // 压缩中间件
 const app = new Koa()
-
-const router = new Router()
-router.get('/', (cxt) => {
-  cxt.body = 'hello'
-})
 
 // 计算中间价使用的时间
 app.use(async (ctx, next) => {
-  console.log(123)
   const start = Date.now()
   await next()
   const ms = Date.now() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
   logUtil.info(`log output info`)
 })
-app
-  .use(
-    bodyParser({
-      enableTypes: ['json', 'form', 'text']
-    })
-  )
-  .use(router.routes())
-  .use(json)
+
+// 压缩中间件
+app.use(compress())
+app.use(middleware).use(router.routes()).use(router.allowedMethods())
 
 app.on('error', (err, ctx) => {
   console.log(err)
