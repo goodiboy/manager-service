@@ -39,7 +39,7 @@ class LogUtil {
    * level为debug的日志记录
    * @param content
    */
-  debug<T = string>(content: T) {
+  debug(content: any) {
     const logger = log4js.getLogger(Levels.debug)
     logger.level = Levels.debug
     logger.debug(content)
@@ -49,17 +49,17 @@ class LogUtil {
    * level为info的日志记录
    * @param content
    */
-  info<T = string>(content: T) {
+  info(content: any) {
     const logger = log4js.getLogger(Levels.info)
     logger.level = Levels.info
     logger.info(content)
   }
 
   /**
-   * level为info的日志记录
+   * level为error的日志记录
    * @param content
    */
-  error<T = string>(content: T) {
+  error(content: any) {
     const logger = log4js.getLogger(Levels.error)
     logger.level = Levels.error
     logger.error(content)

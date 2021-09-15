@@ -3,6 +3,6 @@ import usersRouter from './users'
 const router = new Router()
 router.prefix('/api')
 
-router.use('/users', usersRouter.routes())
+router.use(usersRouter.routes(), usersRouter.allowedMethods())
 
 export default router

@@ -3,8 +3,8 @@ import router from './routes'
 import logUtil from './utils/logUtil'
 import middleware from './utils/composeMiddleware'
 import compress from 'koa-compress' // 压缩中间件
+import './config/db'
 const app = new Koa()
-
 // 计算中间价使用的时间
 app.use(async (ctx, next) => {
   const start = Date.now()

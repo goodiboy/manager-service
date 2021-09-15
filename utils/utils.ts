@@ -3,11 +3,11 @@ import logUtil from './logUtil'
 // 错误码
 export enum MsgCode {
   SUCCESS = 200,
-  PARAM_ERROR = 10001, // 参数错误
-  USER_ACCOUNT_ERROR = 20001, //账号或密码错误
-  USER_LOGIN_ERROR = 30001, // 用户未登录
-  BUSINESS_ERROR = 40001, //业务请求失败
-  AUTH_ERROR = 500001 // 认证失败或TOKEN过期
+  PARAM_ERROR = 501, // 参数错误
+  USER_ACCOUNT_ERROR = 402, //账号或密码错误
+  USER_LOGIN_ERROR = 400, // 用户未登录
+  BUSINESS_ERROR = 500, //业务请求失败
+  AUTH_ERROR = 401 // 认证失败或TOKEN过期
 }
 
 // 分页结构
@@ -21,9 +21,9 @@ export interface PageType {
 
 // 返回的数据结构
 export interface ResponseType<T = any> {
-  data: T
-  msg: string
-  code: MsgCode
+  data?: T
+  msg?: string | null
+  code?: MsgCode
 }
 
 /**
@@ -52,10 +52,10 @@ export function pager({ pageNum = 1, pageSize = 10 }): PageType {
  */
 export function success<T = any>({
   data,
-  msg,
+  msg = null,
   code = MsgCode.SUCCESS
 }: ResponseType<T>): ResponseType<T> {
-  logUtil.debug<T>(data)
+  logUtil.debug(data)
   return {
     code,
     data,
@@ -74,7 +74,26 @@ export function fail<T = any>({
   msg,
   code = MsgCode.BUSINESS_ERROR
 }: ResponseType<T>): ResponseType<T> {
-  logUtil.debug<T>(data)
+  logUtil.debug(msg)
+  return {
+    code,
+    data,
+    msg
+  }
+}
+
+/**
+ * 请求报错
+ * @param data
+ * @param msg
+ * @param code
+ */
+export function catchError<T = any>({
+  data,
+  msg,
+  code = MsgCode.BUSINESS_ERROR
+}: ResponseType<T>): ResponseType<T> {
+  logUtil.error(msg)
   return {
     code,
     data,
